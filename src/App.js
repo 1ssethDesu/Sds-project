@@ -1,7 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import SignUp from "./components/SignUp/SignUp";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ForgetPassword from './components/ForgetPassword/ForgetPassword';
 import Login from "./components/Login/Login";
+import SignUp from "./components/SignUp/SignUp";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/ForgetPassword" element={<ForgetPassword />} />
         </Routes>
       </BrowserRouter>
     </div>

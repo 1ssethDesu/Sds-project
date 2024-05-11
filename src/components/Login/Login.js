@@ -1,39 +1,34 @@
 import React, { useState } from 'react';
+import { FaLock, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import './Login.css';
-import { FaUser, FaLock } from 'react-icons/fa';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [errors, setErrors] = useState({});
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .required("Email is Required")
-      .email("Invalid email format"),
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required('Email is required').email('Invalid email format'),
     password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .matches(
-        /[!@#$%^&*(),.?":{}|<>]/,
-        "Password must contain at least one symbol"
-      )
-      .matches(/[0-9]/, "Password must contain at least one number")
-      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .matches(/[a-z]/, "Password must contain at least one lowercase letter"),
+      .required('Password is required')
+      .min(8, 'Password must be at least 8 characters')
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one symbol')
+      .matches(/[0-9]/, 'Password must contain at least one number')
+      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .matches(/[a-z]/, 'Password must contain at least one lowercase letter'),
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await validationSchema.validate(formData, {abortEarly: false});
-      console.log("Form Submitted", formData);
+      await validationSchema.validate(formData, { abortEarly: false });
+      console.log('Form Submitted', formData);
     } catch (error) {
       const newErrors = {};
 
@@ -46,19 +41,22 @@ const Login = () => {
   };
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
   };
 
   return (
     <form className="form" onSubmit={handleSubmit}>
       <h1>Login</h1>
-      <div className='input-box'>
-        <label><FaUser className='icon'/> Email: </label><br/>
+      <div className="input-box">
+        <label>
+          <FaUser className="icon" /> Email:{' '}
+        </label>
+        <br />
         <input
           type="email"
           name="email"
@@ -68,8 +66,11 @@ const Login = () => {
         />
         {errors.email && <div className="error">{errors.email}</div>}
       </div>
-      <div className='input-box'>
-        <label><FaLock className='icon'/> Password:  </label><br/>
+      <div className="input-box">
+        <label>
+          <FaLock className="icon" /> Password:{' '}
+        </label>
+        <br />
         <input
           type="password"
           name="password"
@@ -81,17 +82,20 @@ const Login = () => {
       </div>
 
       {/* Remember me check-box */}
-     
-      <div className="form-options" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="form-options">
         <label className="checkbox">
           <input type="checkbox" name="remember" /> Remember Me
         </label>
-        <a href="#" className="forgot-password">Forgot Password?</a>
+        <a href="#" className="forgot-password">
+         <Link to="/ForgetPassword"> Forgot Password? </Link>
+        </a>
       </div>
 
-      <button type='submit' className='button'>Login</button>
+      <button type="submit" className="button">
+        Login
+      </button>
       <div className="already-have-account">
-   Don't have an account? <Link to="/signup">Sign Up</Link>
+        Don't have an account? <Link to="/signup">Sign Up</Link>
       </div>
     </form>
   );
